@@ -20,7 +20,7 @@ function App() {
       <h1>Background color : {color}</h1>
       <button
         onClick={randomColor}>
-        Change color
+        Flip color
       </button>
     </div>
   );

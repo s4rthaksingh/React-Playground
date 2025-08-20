@@ -8,6 +8,11 @@ export default function Board(){
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [turn, setTurn] = useState("O");
 
+  const winner = checkWin(squares);
+  let status;
+  if(winner) status = "Winner : " + winner;
+  else status = "Next turn : " + turn;
+
   function handleClick(i){
     if(squares[i] || checkWin(squares)) return;
     const nextSquares = squares.slice();
@@ -18,6 +23,7 @@ export default function Board(){
   }
 
   return <>
+    <div className="status">{status}</div>
     <div className="board-row">
       <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
       <Square value={squares[1]} onSquareClick={() => handleClick(1)} />

@@ -51,7 +51,7 @@ function Wordspace({ word, setChances, chances }) {
   const [currentChar, setCurrentChar] = useState("");
   const [currentWord, setCurrentWord] = useState(() => 
     toguess.map((char) => 
-      ['a','e','i','o','u',' ',':','-','.'].includes(char) ? char : '_'
+      ['a','e','i','o','u',' ',':','-','.'].includes(char.toLowerCase()) ? char : '_'
     )
   );
 

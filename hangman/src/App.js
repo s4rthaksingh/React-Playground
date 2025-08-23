@@ -30,7 +30,7 @@ function App() {
       />
       <div>{chances} chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <Wordspace key={word} word={word} setChances={setChances} chances={chances} />
+        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
       ) : (
         <div>
           Game Over <br />

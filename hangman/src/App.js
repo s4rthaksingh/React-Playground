@@ -9,10 +9,10 @@ function App() {
       setLoading(true)
       const fetchnewword = async () => {
         const response = await fetch(
-          "https://random-word-api.herokuapp.com/word"
+          "/movies.json"
         );
         const result = await response.json();
-        setWord(result[0]);
+        setWord(result[Math.floor(Math.random() * (result.length - 0 + 1)) + 0]);
         setChances(6);
         setLoading(false)
       };
@@ -30,7 +30,7 @@ function App() {
       />
       <div>{chances} chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <div><Wordspace key={word} word={"Hello World!"} setChances={setChances} chances={chances} /><br></br><button onClick={GetNewWord}>New Word</button></div>
+        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
       ) : (
         <div>
           Game Over <br />
@@ -51,7 +51,7 @@ function Wordspace({ word, setChances, chances }) {
   const [currentChar, setCurrentChar] = useState("");
   const [currentWord, setCurrentWord] = useState(() => 
     toguess.map((char) => 
-      ['a','e','i','o','u',' '].includes(char) ? char : '_'
+      ['a','e','i','o','u',' ',':','-','.'].includes(char) ? char : '_'
     )
   );
 
@@ -75,7 +75,7 @@ function Wordspace({ word, setChances, chances }) {
         return <span key={index}>{char===' '?'\u00A0\u00A0':char} </span>;
       })}
 
-      {word!==currentWord.join('') && <form onSubmit={(e) => handleSubmit(e)}>
+      {word!==currentWord.join('') ? <form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="charInput">Guess a single letter : </label>
         <input
           type="text"
@@ -85,7 +85,7 @@ function Wordspace({ word, setChances, chances }) {
           value={currentChar.toLowerCase()}
         />
         <button type="submit">Try</button>
-      </form>}
+      </form>:<div>You guessed it right!</div>}
     </>
   );
 }

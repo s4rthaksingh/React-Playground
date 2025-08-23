@@ -49,9 +49,12 @@ function App() {
 function Wordspace({ word, setChances, chances }) {
   const toguess = word.split("");
   const [currentChar, setCurrentChar] = useState("");
-  const [currentWord, setCurrentWord] = useState(
-    "_".repeat(toguess.length).split("")
+  const [currentWord, setCurrentWord] = useState(() => 
+    toguess.map((char) => 
+      ['a','e','i','o','u'].includes(char) ? char : '_'
+    )
   );
+
   function handleSubmit(e) {
     e.preventDefault();
     if (currentChar === "" || currentChar === " ") return;

@@ -1,53 +1,90 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
   const [chances, setChances] = useState(6);
+  const [word, setWord] = useState(null)
+  const [loading, setLoading] = useState(false)
+  function GetNewWord(){
+      setLoading(true)
+      const fetchnewword = async () => {
+        const response = await fetch(
+          "https://random-word-api.herokuapp.com/word"
+        );
+        const result = await response.json();
+        setWord(result[0]);
+        setChances(6);
+        setLoading(false)
+      };
+      fetchnewword();
+  }
+  
+  useEffect(()=>
+  GetNewWord(),[])
+
   return (
     <>
-      <img src={require(`../public/images/Hangman-${chances}.png`)} alt="hangman.png" />
+      <img
+        src={require(`../public/images/Hangman-${chances}.png`)}
+        alt="hangman.png"
+      />
       <div>{chances} chances remaining</div>
-      {chances>0?<Wordspace word="Sarthak" setChances={setChances} chances={chances}/>:"Game Over"}
-
+      {loading?<div>Loading...</div> : chances > 0 && word? (
+        <Wordspace key={word} word={word} setChances={setChances} chances={chances} />
+      ) : (
+        <div>
+          Game Over <br />
+          The word was {word} <br />
+          <button
+            onClick={GetNewWord}
+          >
+            Try again?
+          </button>
+        </div>
+      )}
     </>
   );
 }
 
-function Wordspace({word, setChances, chances}){
+function Wordspace({ word, setChances, chances }) {
   const toguess = word.split("");
   const [currentChar, setCurrentChar] = useState("");
-  const [currentWord, setCurrentWord] = useState(("_".repeat(toguess.length)).split(""))
-  function handleSubmit(e){
+  const [currentWord, setCurrentWord] = useState(
+    "_".repeat(toguess.length).split("")
+  );
+  function handleSubmit(e) {
     e.preventDefault();
-    if(currentChar === "" || currentChar === " ") return;
-    if(toguess.includes(currentChar)){
-      let newCurrentWord = [...currentWord]
+    if (currentChar === "" || currentChar === " ") return;
+    if (toguess.includes(currentChar)) {
+      let newCurrentWord = [...currentWord];
       for (let i = 0; i < toguess.length; i++) {
-        if(toguess[i] === currentChar){
-          
-          newCurrentWord[i] = currentChar
-          
+        if (toguess[i] === currentChar) {
+          newCurrentWord[i] = currentChar;
         }
       }
       setCurrentWord(newCurrentWord);
-    }
-    else setChances(chances-1)
+    } else setChances(chances - 1);
     setCurrentChar("");
   }
   return (
     <>
-  
-      {currentWord.map((char) => {
-        return <span>{char}{" "}</span>
+      {currentWord.map((char, index) => {
+        return <span key={index}>{char} </span>;
       })}
-    
-      <form onSubmit={e=>handleSubmit(e)}>
-        <label htmlFor="charInput">Guess a single letter : {" "}</label>
-        <input type="text" maxLength="1" id="charInput" onChange={e => setCurrentChar(e.target.value)} value={currentChar}/>
+
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <label htmlFor="charInput">Guess a single letter : </label>
+        <input
+          type="text"
+          maxLength="1"
+          id="charInput"
+          onChange={(e) => setCurrentChar(e.target.value)}
+          value={currentChar.toLowerCase()}
+        />
         <button type="submit">Try</button>
       </form>
     </>
-  )
+  );
 }
 
 export default App;

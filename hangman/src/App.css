@@ -1,5 +1,68 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Optional: Add some styling for better spacing */
+.App img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.App button {
+  margin: 10px;
+  padding: 8px 16px; /* Decreased padding */
+  font-size: 14px; /* Decreased font size */
+  cursor: pointer;
+}
+
+.App form {
+  margin: 20px 0;
+  font-size: 14px; /* Decreased font size */
+}
+
+.App form input {
+  font-size: 14px; /* Decreased input font size */
+  padding: 8px 12px; /* Decreased padding */
+  margin: 0 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  width: 40px; /* Decreased width */
+  text-align: center;
+}
+
+.App form button {
+  font-size: 14px; /* Decreased button font size */
+  padding: 8px 16px; /* Decreased button padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.App form button:hover {
+  background-color: #0056b3;
+}
+
+.App form label {
+  font-size: 14px; /* Decreased label font size */
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.App h3 {
+  margin: 20px 0;
+  letter-spacing: 2px;
+  font-size: 20px; /* Decreased word display size */
 }
 
 .App-logo {

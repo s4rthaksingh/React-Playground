@@ -29,7 +29,7 @@ function App() {
   {if(selected.length>0) GetNewWord(); else setWord(null)},[selected])
 
   return (
-    <>
+    <div className="App">
       <img
         src={require(`../public/images/Hangman-${chances}.png`)}
         alt="hangman.png"
@@ -49,7 +49,7 @@ function App() {
         </div>
       )}
         <Options selected={selected} setSelected={setSelected}/>
-    </>
+    </div>
   );
 }
 

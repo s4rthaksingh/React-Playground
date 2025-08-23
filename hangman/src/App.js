@@ -5,14 +5,20 @@ function App() {
   const [chances, setChances] = useState(6);
   const [word, setWord] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [selected, setSelected] = useState(["movies"])
+
   function GetNewWord(){
       setLoading(true)
-      const fetchnewword = async () => {
-        const response = await fetch(
-          "/movies.json"
-        );
-        const result = await response.json();
-        setWord(result[Math.floor(Math.random() * (result.length - 0 + 1)) + 0]);
+      let result = []
+      const fetchnewword =  async () => {
+        for(const option of selected){
+          const response =  await fetch(
+            `/${option}.json`
+          );
+          result.push( await response.json());   
+        };
+        const chosenOption = result[Math.floor(Math.random() * (result.length))]
+        setWord(chosenOption[Math.floor(Math.random() * (chosenOption.length))]);
         setChances(6);
         setLoading(false)
       };
@@ -20,7 +26,7 @@ function App() {
   }
   
   useEffect(()=>
-  GetNewWord(),[])
+  {if(selected.length>0) GetNewWord(); else setWord(null)},[selected])
 
   return (
     <>
@@ -30,11 +36,11 @@ function App() {
       />
       <div><strong>{chances}</strong> chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Movie</button></div>
+        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Game</button></div>
       ) : (
         <div>
           Game Over <br />
-          The movie was {word} <br />
+          The right guess was <strong>{word}</strong> <br />
           <button
             onClick={GetNewWord}
           >
@@ -42,6 +48,7 @@ function App() {
           </button>
         </div>
       )}
+        <Options selected={selected} setSelected={setSelected}/>
     </>
   );
 }
@@ -51,7 +58,7 @@ function Wordspace({ word, setChances, chances }) {
   const [currentChar, setCurrentChar] = useState("");
   const [currentWord, setCurrentWord] = useState(() => 
     toguess.map((char) => 
-      ['a','e','i','o','u',' ',':','-','.'].includes(char.toLowerCase()) ? char : '_'
+      ['a','e','i','o','u',' ',':','-','.',"\"","'"].includes(char.toLowerCase()) ? char : '_'
     )
   );
 
@@ -88,6 +95,30 @@ function Wordspace({ word, setChances, chances }) {
       </form>:<div>You guessed it right!</div>}
     </>
   );
+}
+
+function Options({selected, setSelected}){
+  const [error, setError] = useState(false)
+
+  let newSelected = [...selected]
+  function handleChange(e){
+    if(e.target.checked){
+      newSelected.push(e.target.value);
+      setError(false);
+    }
+    else newSelected = newSelected.filter(item => item !== e.target.value);
+    if(newSelected.length === 0) return setError(true);
+    setSelected(newSelected);
+  }
+  return <>
+  <form>
+    <label htmlFor="movies">Movies</label>
+     <input type="checkbox" id="movies" value="movies" checked={selected.includes('movies')} onChange={(e) => handleChange(e)} />
+     <label htmlFor="tv-shows">TV Shows</label>
+     <input type="checkbox" id="tv-shows" value="tv-shows" checked={selected.includes('tv-shows')} onChange={(e) => handleChange(e)} />
+  </form>
+  {error && "You need to have atleast one category selected!"}
+  </>
 }
 
 export default App;

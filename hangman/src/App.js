@@ -30,7 +30,7 @@ function App() {
       />
       <div>{chances} chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
+        <div><Wordspace key={word} word={"Hello World!"} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
       ) : (
         <div>
           Game Over <br />
@@ -51,18 +51,18 @@ function Wordspace({ word, setChances, chances }) {
   const [currentChar, setCurrentChar] = useState("");
   const [currentWord, setCurrentWord] = useState(() => 
     toguess.map((char) => 
-      ['a','e','i','o','u'].includes(char) ? char : '_'
+      ['a','e','i','o','u',' '].includes(char) ? char : '_'
     )
   );
 
   function handleSubmit(e) {
     e.preventDefault();
     if (currentChar === "" || currentChar === " ") return;
-    if (toguess.includes(currentChar)) {
+    if (word.toLowerCase().includes(currentChar)) {
       let newCurrentWord = [...currentWord];
       for (let i = 0; i < toguess.length; i++) {
-        if (toguess[i] === currentChar) {
-          newCurrentWord[i] = currentChar;
+        if (toguess[i].toLowerCase() === currentChar.toLowerCase()) {
+          newCurrentWord[i] = toguess[i];
         }
       }
       setCurrentWord(newCurrentWord);
@@ -72,7 +72,7 @@ function Wordspace({ word, setChances, chances }) {
   return (
     <>
       {currentWord.map((char, index) => {
-        return <span key={index}>{char} </span>;
+        return <span key={index}>{char===' '?'\u00A0\u00A0':char} </span>;
       })}
 
       <form onSubmit={(e) => handleSubmit(e)}>

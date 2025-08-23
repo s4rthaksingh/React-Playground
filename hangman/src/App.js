@@ -30,7 +30,7 @@ function App() {
       />
       <div>{chances} chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <div><Wordspace key={word} word={"Hello World!"} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
+        <div><Wordspace key={word} word={"Hello World!"} setChances={setChances} chances={chances} /><br></br><button onClick={GetNewWord}>New Word</button></div>
       ) : (
         <div>
           Game Over <br />
@@ -75,7 +75,7 @@ function Wordspace({ word, setChances, chances }) {
         return <span key={index}>{char===' '?'\u00A0\u00A0':char} </span>;
       })}
 
-      <form onSubmit={(e) => handleSubmit(e)}>
+      {word!==currentWord.join('') && <form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="charInput">Guess a single letter : </label>
         <input
           type="text"
@@ -85,7 +85,7 @@ function Wordspace({ word, setChances, chances }) {
           value={currentChar.toLowerCase()}
         />
         <button type="submit">Try</button>
-      </form>
+      </form>}
     </>
   );
 }

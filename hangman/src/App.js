@@ -28,13 +28,13 @@ function App() {
         src={require(`../public/images/Hangman-${chances}.png`)}
         alt="hangman.png"
       />
-      <div>{chances} chances remaining</div>
+      <div><strong>{chances}</strong> chances remaining</div>
       {loading?<div>Loading...</div> : chances > 0 && word? (
-        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Word</button></div>
+        <div><Wordspace key={word} word={word} setChances={setChances} chances={chances} /><button onClick={GetNewWord}>New Movie</button></div>
       ) : (
         <div>
           Game Over <br />
-          The word was {word} <br />
+          The movie was {word} <br />
           <button
             onClick={GetNewWord}
           >
@@ -71,9 +71,9 @@ function Wordspace({ word, setChances, chances }) {
   }
   return (
     <>
-      {currentWord.map((char, index) => {
+      <h3>{currentWord.map((char, index) => {
         return <span key={index}>{char===' '?'\u00A0\u00A0':char} </span>;
-      })}
+      })}</h3>
 
       {word!==currentWord.join('') ? <form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="charInput">Guess a single letter : </label>

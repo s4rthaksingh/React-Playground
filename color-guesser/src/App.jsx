@@ -4,11 +4,11 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [resultmessage, setResultMessage] = useState(null);
   const [colors, setColors] = useState({});
   const [color, setColor] = useState(0);
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     const fetchColor = async () => {
@@ -21,6 +21,9 @@ function App() {
 
 
   useEffect(() => {
+    document.querySelectorAll('button').forEach(btn => {
+      if(btn.textContent !== 'New Color') btn.style.backgroundColor = '';
+    });
     if(!colors.length > 0) return;
     let newoptions = [];
     for (let i = 0; i < 4; i++) {
@@ -32,7 +35,7 @@ function App() {
     setOptions(newoptions);
 
     setSelectedOption(Math.floor(Math.random() * 3));
-  }, [colors]);
+  }, [colors, key]);
 
   useEffect(() => {
     if (options.length > 0 && colors.length > 0 && selectedOption !== undefined) {
@@ -40,9 +43,9 @@ function App() {
     }
   }, [options, selectedOption, colors]);
 
-  function checkAnswer(answer) {
-    if (answer == selectedOption) return true;
-    else return false;
+  function checkAnswer(answer, button) {
+    if (answer == selectedOption) {button.style.backgroundColor = '#008000'; setShowRefreshButton(true)}
+    else {button.style.backgroundColor = '#ee2400'};
   }
 
   if (!color || Object.keys(colors).length === 0) {
@@ -57,20 +60,46 @@ function App() {
           style={{ backgroundColor: color[1] }}
         ></div>
         <div className="flex flex-row gap-5">
-          <button className="w-50 h-20" onClick={() => checkAnswer(0)}>
+          <button 
+            className="w-50 h-20" 
+            style={{outline: 'none', boxShadow: 'none'}}
+            onClick={(e) => checkAnswer(0, e.target)}
+          >
             {colors[options[0]][0]}
           </button>
-          <button className="w-50 h-20" onClick={() => checkAnswer(1)}>
+          <button 
+            className="w-50 h-20" 
+            style={{outline: 'none', boxShadow: 'none'}}
+            onClick={(e) => checkAnswer(1, e.target)}
+          >
             {colors[options[1]][0]}
           </button>
-          <button className="w-50 h-20" onClick={() => checkAnswer(2)}>
+          <button 
+            className="w-50 h-20" 
+            style={{outline: 'none', boxShadow: 'none'}}
+            onClick={(e) => checkAnswer(2, e.target)}
+          >
             {colors[options[2]][0]}
           </button>
-          <button className="w-50 h-20" onClick={() => checkAnswer(3)}>
+          <button 
+            className="w-50 h-20" 
+            style={{outline: 'none', boxShadow: 'none'}}
+            onClick={(e) => checkAnswer(3, e.target)}
+          >
             {colors[options[3]][0]}
           </button>
         </div>
-        <p className="mt-15">{resultmessage}</p>
+        <button className="mt-15" style={{outline: 'none', boxShadow: 'none', backgroundColor:'#4caf50', }}           onClick={() => {
+            // Reset button colors first, then update state
+            document.querySelectorAll('button').forEach(btn => {
+              if(btn.textContent !== 'New Color') btn.style.backgroundColor = '';
+            });
+            setSelectedOption(Math.floor(Math.random() * 3));
+            setKey(key+1);
+          }}
+        >
+          New Color
+        </button>
       </div>
     </>
   );

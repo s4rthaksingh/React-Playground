@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ref, set, onValue, off, update } from 'firebase/database';
+import { ref, set, onValue, off, update, get } from 'firebase/database';
 import { db } from '../firebase';
 import './App.css';
 
@@ -7,11 +7,18 @@ function App() {
   const [currentPlayer, setcurrentPlayer] = useState(null);
   const [localPlayer, setLocalPlayer] = useState(0);
   const [gameState, setGameState] = useState(null);
-  const [isLocalPlayerSet, setIsLocalPlayerSet] = useState(false);
+
 
   const gameRef = ref(db,'game')
 
-  useEffect(()=>{
+  useEffect(() => {
+    get(gameRef).then(snapshot => {
+      const data = snapshot.val();
+      if (data && data.currentPlayer === localPlayer) {
+        setLocalPlayer(1);
+      }
+    });
+    
     const unsubscribe = onValue(gameRef, (snapshot) => {
       let newGameState = snapshot.val();
       if (!newGameState) {
@@ -19,13 +26,11 @@ function App() {
         return;
       }
       setGameState(newGameState);
-      if(newGameState.currentPlayer === localPlayer && !isLocalPlayerSet){ setIsLocalPlayerSet(true); setLocalPlayer(1)};
-      
       setcurrentPlayer(newGameState.currentPlayer);
-    })
+    });
 
-    return(() => unsubscribe());
-  }, [])
+    return () => unsubscribe();
+  }, []);
 
   const handleClick = (to) => {
     update(gameRef, {currentPlayer : to});

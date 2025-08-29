@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { ref, set, onValue } from 'firebase/database';
+import { db } from '../firebase';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPlayer, setCurrentPlayer] = useState(null);
+
+  useEffect(() => {
+    const playerRef = ref(db, 'game/currentPlayer');
+    const unsubscribe = onValue(playerRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('Current Player:', data);
+      setCurrentPlayer(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleClick = () => {
+    set(ref(db, 'game/currentPlayer'), { name: 'Alice' });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Hot Bomb Game</h1>
+      <p>Current Player: {currentPlayer ? currentPlayer.name : 'Loading...'}</p>
+      <button onClick={handleClick}>Click to Set Player</button>
+    </div>
+  );
 }
 
-export default App
+export default App;

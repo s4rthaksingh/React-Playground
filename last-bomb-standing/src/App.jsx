@@ -7,13 +7,20 @@ function App() {
   const [currentPlayer, setcurrentPlayer] = useState(null);
   const [localPlayer, setLocalPlayer] = useState(0);
   const [gameState, setGameState] = useState(null);
+  const [isLocalPlayerSet, setIsLocalPlayerSet] = useState(false);
 
   const gameRef = ref(db,'game')
 
   useEffect(()=>{
     const unsubscribe = onValue(gameRef, (snapshot) => {
-      const newGameState = snapshot.val();
+      let newGameState = snapshot.val();
+      if (!newGameState) {
+        update(gameRef, { currentPlayer: 0 });
+        return;
+      }
       setGameState(newGameState);
+      if(newGameState.currentPlayer === localPlayer && !isLocalPlayerSet){ setIsLocalPlayerSet(true); setLocalPlayer(1)};
+      
       setcurrentPlayer(newGameState.currentPlayer);
     })
 

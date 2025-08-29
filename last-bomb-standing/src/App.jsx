@@ -4,45 +4,33 @@ import { db } from '../firebase';
 import './App.css';
 
 function App() {
-  const [playerIndex, setplayerIndex] = useState(null);
+  const [currentPlayer, setcurrentPlayer] = useState(null);
   const [localPlayer, setLocalPlayer] = useState(0);
-  const [addedToPlayers, setAddedToPlayers] = useState(false);
+  const [gameState, setGameState] = useState(null);
 
-  useEffect(() => {  
+  const gameRef = ref(db,'game')
 
-    const gameRef = ref(db, 'game');
+  useEffect(()=>{
     const unsubscribe = onValue(gameRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log('Current game state:', data);
-      setplayerIndex(data.playerIndex);
-      if(!data.players){
-        update(gameRef,{ players: [localPlayer] })
-        setAddedToPlayers(true);
-      }
-      if(data.players && data.players.includes(localPlayer) && !addedToPlayers){
-        setLocalPlayer(localPlayer+1);
-        update(gameRef, {players : []})
-        console.log("Local player : " + localPlayer);
-      }
+      const newGameState = snapshot.val();
+      setGameState(newGameState);
+      setcurrentPlayer(newGameState.currentPlayer);
     })
-    return () => {
-      unsubscribe();
-    }
-  }, []);
 
-  const handleClick = (player) => {
-    set(ref(db, 'game'), { playerIndex: player });
-  };
+    return(() => unsubscribe());
+  }, [])
+
+  const handleClick = (to) => {
+    update(gameRef, {currentPlayer : to});
+  }
 
   return (
-    <div> 
-      {localPlayer === playerIndex && <h1>💣</h1>}
-      <p>Current Player: {playerIndex}</p>
-      <div className="flex gap-5">
+    <> 
+      {localPlayer === currentPlayer && <h1>💣</h1>}
+      <p>Current Player: {currentPlayer}</p>
         <button onClick={() => handleClick(0)}>Give it to Player 1</button>
         <button onClick={() => handleClick(1)}>Give it to Player 2</button>
-      </div>
-    </div>
+    </>
   );
 }
 

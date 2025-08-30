@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { db } from "../firebase";
 import { ref, set, onValue, update } from "firebase/database";
+import EmojiPicker from 'emoji-picker-react';
+
 
 function App() {
   const [moodState, setmoodState] = useState({});
   const [currentName, setCurrentName] = useState(null);
   const [currentMood, setCurrentMood] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const moodsRef = ref(db, "moods");
 
@@ -28,6 +31,13 @@ function App() {
     set(moodsRef, newMoodState);
     e.target.textContent = "Updated!";
     setTimeout(() => (e.target.textContent = "Update"), 3000);
+
+    setShowEmojiPicker(false);
+  }
+
+  const onEmojiClick = (emojiObject) => {
+    setCurrentMood(emojiObject.emoji);
+    setShowEmojiPicker(false);
   }
 
   return (
@@ -41,21 +51,24 @@ function App() {
           className="outline-0 border-0"
           maxLength={10}
           onChange={(e) => setCurrentName(e.target.value)}
-          value={currentName}
         />
-        <select
-          id="mood"
-          className="outline-0 border-0 bg-[#282424]"
-          onChange={(e) => setCurrentMood(e.target.value)}
-          value={currentMood || ""}
-        >
-          <option value="">Select mood</option>
-          {emojis.map((emoji, index) => (
-            <option key={index} value={emoji}>
-              {emoji}
-            </option>
-          ))}
-        </select>
+       <div className="relative inline-block">
+  <input
+    type="text"
+    id="mood"
+    placeholder="Set your mood"
+    className="outline-0 border-0 bg-transparent cursor-pointer"
+    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+    value={currentMood || ""}
+    readOnly
+  />
+  
+  {showEmojiPicker && (
+    <div className="absolute z-10 mt-2">
+      <EmojiPicker onEmojiClick={onEmojiClick} />
+    </div>
+  )}
+</div>
         <button onClick={(e) => updateMood(e)}>Update</button>
       </div>
       <div className="h-9/10 w-screen flex flex-wrap justify-center items-center gap-5">

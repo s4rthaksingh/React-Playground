@@ -45,7 +45,7 @@ function App() {
           className="flex h-screen w-screen text-[#38302E]"
           spellCheck="false"
         >
-          <div className="w-1/2 bg-[#b6d7b9] font-thin">
+          <div className="w-1/2 bg-[#A8E6C8] font-thin">
             <h1
               className="mt-4 border-0 outline-0"
               contentEditable="true"
@@ -69,7 +69,7 @@ function App() {
               <h1 className="mb-50 ">Press Q</h1>
             </div>
           </div>
-          <div className="w-1/2 bg-[#9ABD97] font-thin">
+          <div className="w-1/2 bg-[#A8E6D4] font-thin">
             <h1
               className="mt-4 border-0 outline-0"
               contentEditable="true"
@@ -98,7 +98,7 @@ function App() {
     );
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center font-thin text-gray-950 bg-[#6F6866]">
+    <div className="h-screen w-screen flex flex-col items-center justify-center font-thin text-gray-950 bg-[#B8D5BA]">
       {winner && (
         <h1 className="mb-15" id="winnerText">
           {winner} wins!

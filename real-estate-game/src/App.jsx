@@ -16,6 +16,14 @@ function App() {
     localStorage.setItem("properties", JSON.stringify(properties))
   },[bal, properties])
 
+  useEffect(() => {
+      const interval = setInterval(() => {
+        setBal(currentBal => currentBal + properties["Apartment"])
+      }, 2000);
+
+      return() => clearInterval(interval);
+  }, [properties]);
+
   return (
     <>
       <div className="h-screen w-screen flex items-center justify-around">

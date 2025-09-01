@@ -46,9 +46,12 @@ function App() {
   return (
     <>
       <div className="h-screen w-screen flex flex-col items-center justify-around">
-        <div>
+        <div className="flex flex-col gap-5">
+        <p className="text-3xl">
+            Balance : ${bal}
+          </p>
           <p className="text-3xl">
-            Income : ${income}/sec
+            Passive Income : ${income}/sec
           </p>
         </div>
         <div className="flex items-center justify-around w-screen">
@@ -70,7 +73,7 @@ function Workplace({ bal, setBal }) {
   return (
     <>
       <div className="flex flex-col gap-3">
-        <h2>Your balance : {bal}</h2>
+        <h2>Work to earn $1</h2>
         <button
           onClick={() => {
             setBal(bal + 1);

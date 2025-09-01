@@ -26,10 +26,15 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen flex items-center justify-around">
-        <Workplace setBal={setBal} bal={bal} />
-        <BuyOption setBal={setBal} bal={bal} properties={properties} setProperties = {setProperties}/>
-        <Properties properties={properties}/>
+      <div className="h-screen w-screen flex flex-col items-center justify-around">
+        <div>
+          <p className="text-3xl">Income : ${properties["Apartment"]*0.5}/sec</p>
+        </div>
+        <div className="flex items-center justify-around w-screen">
+          <Workplace setBal={setBal} bal={bal} />
+          <BuyOption setBal={setBal} bal={bal} properties={properties} setProperties = {setProperties}/>
+          <Properties properties={properties}/>
+        </div>
       </div>
     </>
   );
@@ -54,13 +59,14 @@ function Workplace({ bal, setBal }) {
 
 function BuyOption({bal, setBal, properties, setProperties}){
   const buyApartmentHandler = () => {
+    if(bal < 100) return;
     setBal(bal-100);
     let newProperties = {...properties, 'Apartment' : (properties["Apartment"] || 0) + 1};
     setProperties(newProperties);
   }
 
-  if(bal >= 100) return <>
-    <button onClick={buyApartmentHandler}>Buy apartment ($100)</button>
+  return <>
+    <button style={{"background":bal<100 && "slategray"}} onClick={buyApartmentHandler}>Buy apartment ($100)</button>
   </>
 }
 

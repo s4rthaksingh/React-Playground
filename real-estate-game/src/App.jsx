@@ -8,7 +8,7 @@ function App() {
   });
   const [properties, setProperties] = useState(() => {
     const savedProperties = localStorage.getItem("properties");
-    return savedProperties ? JSON.parse(savedProperties) : {};
+    return savedProperties ? JSON.parse(savedProperties) : {"Apartment" : 0};
   })
 
   useEffect(() => {

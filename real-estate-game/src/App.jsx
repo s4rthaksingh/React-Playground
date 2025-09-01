@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+localStorage.clear();
 
 const propertyDict = {
-  Apartment: { income: 0.5, price: 100 },
-  House: { income: 2, price: 1000 },
+  Apartment: { income: 1, price: 100 },
+  House: { income: 5, price: 400 },
+  Mansion: { income: 25, price: 2000 },
+  Office: { income: 100, price: 10000 },
+  Hotel: { income: 500, price: 50000 },
+  Skyscraper: { income: 2500, price: 250000 },
 };
 
 function App() {
   const [bal, setBal] = useState(() => {
     const saved = localStorage.getItem("balance");
-    return saved ? parseInt(saved) : 99;
+    return saved ? parseInt(saved) : 0;
   });
   const [properties, setProperties] = useState(() => {
     const savedProperties = localStorage.getItem("properties");

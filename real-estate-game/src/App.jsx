@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-localStorage.clear();
+
 
 const propertyDict = {
   Apartment: { income: 1, price: 100 },

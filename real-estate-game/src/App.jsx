@@ -11,7 +11,6 @@ function abbreviateNumber(number, locale = 'en-US', options = {}) {
   return formatter.format(number);
 }
 
-localStorage.clear();
 
 const propertyDict = {
   Tent: { income: 0.5, price: 50 },

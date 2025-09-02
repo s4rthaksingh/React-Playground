@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+function abbreviateNumber(number, locale = 'en-US', options = {}) {
+  const defaultOptions = {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 1,
+  };
+  const formatter = new Intl.NumberFormat(locale, { ...defaultOptions, ...options });
+  return formatter.format(number);
+}
 
 
 const propertyDict = {
@@ -48,10 +57,10 @@ function App() {
       <div className="h-screen w-screen flex flex-col items-center justify-around">
         <div className="flex flex-col gap-5">
         <p className="text-3xl">
-            Balance : ${bal}
+            Balance : ${abbreviateNumber(bal)}
           </p>
           <p className="text-3xl">
-            Passive Income : ${income}/sec
+            Passive Income : ${abbreviateNumber(income)}/sec
           </p>
         </div>
         <div className="flex items-center justify-around w-screen">
@@ -125,7 +134,7 @@ function Properties({ properties }) {
         {Object.keys(properties).map((property, index) => {
           return (
             <li key={index}>
-              {property} : {properties[property]}
+              {property} : {abbreviateNumber(properties[property])}
             </li>
           );
         })}

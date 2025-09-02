@@ -46,8 +46,9 @@ const propertyDict = {
 };
 
 function showProperty(bal, property){
+  const last = Object.keys(propertyDict)[Object.keys(propertyDict).length-1]
   if(!propertyDict[property]) return false;
-  if(property == "DysonSphere") return bal > 100000000;
+  if(property == last) return bal > propertyDict[last].price;
   else if((propertyDict[property].price < bal/2 || propertyDict[property].price > bal*2)) return false
   else return true;
 }
@@ -58,12 +59,14 @@ function App() {
     return saved ? parseInt(saved) : 0;
   });
   const [properties, setProperties] = useState(() => {
-    const savedProperties = localStorage.getItem("properties");
+    const savedProperties = JSON.parse(localStorage.getItem("properties")) || {};
     let beginningProperties = {};
-    for(const property in propertyDict) beginningProperties[property] = 0;
-    return savedProperties ? JSON.parse(savedProperties) : beginningProperties;
+    for(const property in propertyDict) beginningProperties[property] = savedProperties[property] ?? 0;
+    return beginningProperties;
   });
   const [income, setIncome] = useState(0);
+
+
 
   useEffect(() => {
     localStorage.setItem("balance", bal.toString());

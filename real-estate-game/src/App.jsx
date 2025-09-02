@@ -11,21 +11,33 @@ function abbreviateNumber(number, locale = 'en-US', options = {}) {
   return formatter.format(number);
 }
 
-
+localStorage.clear()
 
 const propertyDict = {
+  Tent: { income: 0.5, price: 50 },
   Apartment: { income: 1, price: 100 },
-  House: { income: 5, price: 400 },
-  Mansion: { income: 25, price: 2000 },
-  Office: { income: 100, price: 10000 },
+  Cottage: { income: 3, price: 300 },
+  Condo: { income: 5, price: 500 },
+  House: { income: 8, price: 800 },
+  Townhouse: { income: 15, price: 1500 },
+  Villa: { income: 30, price: 3000 },
+  Shop: { income: 50, price: 5000 },
+  Cafe: { income: 60, price: 6000 },
+  Restaurant: { income: 120, price: 12000 },
+  Bakery: { income: 160, price: 16000 },
+  Gym: { income: 200, price: 20000 },
+  Office: { income: 300, price: 30000 },
+  Warehouse: { income: 400, price: 40000 },
   Hotel: { income: 500, price: 50000 },
+  Factory: { income: 600, price: 60000 },
+  Stadium: { income: 1800, price: 180000 },
   Skyscraper: { income: 2500, price: 250000 },
-  City : {income : 25000, price : 2500000},
-  State : {income : 250000, price : 25000000},
-  Country : {income : 250235, price : 5243204}
+  DataCenter: { income: 3000, price: 300000 },
+  Airport: { income: 10000, price: 1000000 },
 };
 
 function showProperty(bal, property){
+  if(!propertyDict[property]) return false;
   if(propertyDict[property].price < bal/10 || propertyDict[property].price > bal*10) return false
   else return true;
 }
@@ -80,7 +92,7 @@ function App() {
             properties={properties}
             setProperties={setProperties}
           />
-          <Properties properties={properties} />
+          <Properties properties={properties} bal={bal}/>
         </div>
       </div>
     </>
@@ -135,7 +147,7 @@ function BuyOption({ bal, setBal, properties, setProperties }) {
   );
 }
 
-function Properties({ properties }) {
+function Properties({ bal, properties }) {
   return (
     <>
       <div>

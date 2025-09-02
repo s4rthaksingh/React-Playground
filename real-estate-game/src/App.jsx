@@ -47,7 +47,8 @@ const propertyDict = {
 
 function showProperty(bal, property){
   if(!propertyDict[property]) return false;
-  if(propertyDict[property].price < bal/2 || propertyDict[property].price > bal*2) return false
+  if(property == "DysonSphere") return bal > 100000000;
+  else if((propertyDict[property].price < bal/2 || propertyDict[property].price > bal*2)) return false
   else return true;
 }
 

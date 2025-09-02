@@ -12,6 +12,7 @@ function abbreviateNumber(number, locale = 'en-US', options = {}) {
 }
 
 
+
 const propertyDict = {
   Apartment: { income: 1, price: 100 },
   House: { income: 5, price: 400 },
@@ -19,7 +20,15 @@ const propertyDict = {
   Office: { income: 100, price: 10000 },
   Hotel: { income: 500, price: 50000 },
   Skyscraper: { income: 2500, price: 250000 },
+  City : {income : 25000, price : 2500000},
+  State : {income : 250000, price : 25000000},
+  Country : {income : 250235, price : 5243204}
 };
+
+function showProperty(bal, property){
+  if(propertyDict[property].price < bal/10 || propertyDict[property].price > bal*10) return false
+  else return true;
+}
 
 function App() {
   const [bal, setBal] = useState(() => {
@@ -111,7 +120,7 @@ function BuyOption({ bal, setBal, properties, setProperties }) {
       <div className="flex flex-col gap-2">
 
       {Object.keys(propertyDict).map((property, index) => {
-        return <button
+        if(showProperty(bal, property)) return <button
           style={{ background: bal < propertyDict[property].price && "slategray" }}
           onClick={(e) => buyHandler(e.target.value)}
           value={property}
@@ -132,7 +141,7 @@ function Properties({ properties }) {
       <div>
         Your properties :
         {Object.keys(properties).map((property, index) => {
-          return (
+          if(showProperty(bal, property)) return (
             <li key={index}>
               {property} : {abbreviateNumber(properties[property])}
             </li>

@@ -2,13 +2,33 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function abbreviateNumber(number, locale = 'en-US', options = {}) {
+  const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
   const defaultOptions = {
-    notation: 'compact',
-    compactDisplay: 'short',
-    maximumFractionDigits: 1,
+    maximumFractionDigits: 1
   };
-  const formatter = new Intl.NumberFormat(locale, { ...defaultOptions, ...options });
-  return formatter.format(number);
+  const opts = { ...defaultOptions, ...options };
+
+  let num;
+  if (typeof number === 'bigint') {
+    num = number;
+  } else if (typeof number === 'number') {
+    num = BigInt(Math.floor(number));
+  } else {
+    throw new Error('Input must be a number or BigInt');
+  }
+
+  let magnitude = 0n;
+  let divisor = 1000n;
+
+  while (num >= divisor && magnitude < BigInt(suffixes.length - 1)) {
+    num /= 1000n;
+    magnitude++;
+  }
+  const displayNumber = Number(num);
+
+  const formattedNumber = displayNumber.toLocaleString(locale, opts);
+
+  return `${formattedNumber}${suffixes[Number(magnitude)]}`;
 }
 
 

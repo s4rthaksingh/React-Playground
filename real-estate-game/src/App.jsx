@@ -117,7 +117,7 @@ function BuyOption({ bal, setBal, properties, setProperties }) {
           value={property}
           key={index}
         >
-          Buy {property} (${propertyDict[property].price})
+          Buy {property} (${abbreviateNumber(propertyDict[property].price)})
         </button>;
       })}
 

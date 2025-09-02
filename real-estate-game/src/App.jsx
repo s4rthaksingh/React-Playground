@@ -11,6 +11,7 @@ function abbreviateNumber(number, locale = 'en-US', options = {}) {
   return formatter.format(number);
 }
 
+localStorage.clear();
 
 const propertyDict = {
   Tent: { income: 0.5, price: 50 },
@@ -33,6 +34,16 @@ const propertyDict = {
   Skyscraper: { income: 2500, price: 250000 },
   DataCenter: { income: 3000, price: 300000 },
   Airport: { income: 10000, price: 1000000 },
+  Seaport: { income: 15000, price: 1500000 },
+  Spaceport: { income: 25000, price: 2500000 },
+  Megamall: { income: 40000, price: 4000000 },
+  Arcology: { income: 60000, price: 6000000 },
+  Biosphere: { income: 80000, price: 8000000 },
+  Fusion: { income: 120000, price: 12000000 },
+  Megacity: { income: 200000, price: 20000000 },
+  SpaceElevator: { income: 300000, price: 30000000 },
+  Terraformer: { income: 500000, price: 50000000 },
+  DysonSphere: { income: 1000000, price: 100000000 },
 };
 
 function showProperty(bal, property){

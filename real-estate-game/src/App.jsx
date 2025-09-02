@@ -37,7 +37,7 @@ const propertyDict = {
 
 function showProperty(bal, property){
   if(!propertyDict[property]) return false;
-  if(propertyDict[property].price < bal/10 || propertyDict[property].price > bal*10) return false
+  if(propertyDict[property].price < bal/5 || propertyDict[property].price > bal*5) return false
   else return true;
 }
 

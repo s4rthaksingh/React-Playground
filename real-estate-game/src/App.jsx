@@ -186,7 +186,7 @@ function App() {
 
   return (
     <>
-      <div className="h-screen w-screen flex flex-col items-center justify-around">
+      <div className="h-screen w-screen flex flex-col items-center justify-around m-10 p-10">
         <div className="flex flex-col gap-5">
         <p className="text-3xl">
             Balance : ${abbreviateNumber(bal)}

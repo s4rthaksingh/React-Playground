@@ -118,7 +118,28 @@ const propertyDict = {
   "AbsoluteMachine": { income: 25000000000000000, price: 2500000000000000000 },
   "InfinityEngine": { income: 40000000000000000, price: 4000000000000000000 },
   "RealityOverlord": { income: 60000000000000000, price: 6000000000000000000 },
-  "UniverseOverseer": { income: 90000000000000000, price: 9000000000000000000 }
+  "UniverseOverseer": { income: 90000000000000000, price: 9000000000000000000 },
+  "CosmosOverlord": { income: 100000000000000000, price: 10000000000000000000 },
+  "RealitySovereign": { income: 150000000000000000, price: 15000000000000000000 },
+  "InfinityOverlord": { income: 200000000000000000, price: 20000000000000000000 },
+  "Omniscience": { income: 300000000000000000, price: 30000000000000000000 },
+  "Omnipotence": { income: 500000000000000000, price: 50000000000000000000 },
+  "EternityEngine": { income: 750000000000000000, price: 75000000000000000000 },
+  "Chronoverse": { income: 1000000000000000000, price: 100000000000000000000 },
+  "AlphaOmega": { income: 1500000000000000000, price: 150000000000000000000 },
+  "Primordial": { income: 2000000000000000000, price: 200000000000000000000 },
+  "Allfather": { income: 3000000000000000000, price: 300000000000000000000 },
+  "SingularityOverlord": { income: 5000000000000000000, price: 500000000000000000000 },
+  "MetaOverseer": { income: 7500000000000000000, price: 750000000000000000000 },
+  "ParadoxCore": { income: 10000000000000000000, price: 1000000000000000000000 },
+  "AnsibleGrid": { income: 15000000000000000000, price: 1500000000000000000000 },
+  "Continuum": { income: 20000000000000000000, price: 2000000000000000000000 },
+  "Overmind": { income: 30000000000000000000, price: 3000000000000000000000 },
+  "Pantheon": { income: 50000000000000000000, price: 5000000000000000000000 },
+  "SingularityArray": { income: 75000000000000000000, price: 7500000000000000000000 },
+  "OmniMatrix": { income: 100000000000000000000, price: 10000000000000000000000 },
+  "Hypercosm": { income: 150000000000000000000, price: 15000000000000000000000 },
+  "Totality": { income: 200000000000000000000, price: 20000000000000000000000 }
 };
 
 
@@ -174,7 +195,7 @@ function App() {
             Passive Income : ${abbreviateNumber(income)}/sec
           </p>
         </div>
-        <div className="flex items-center justify-around w-screen">
+        <div className="flex flex-col lg:flex-row gap-30 items-center justify-around w-screen p-5">
           <Workplace setBal={setBal} bal={bal} />
           <BuyOption
             setBal={setBal}

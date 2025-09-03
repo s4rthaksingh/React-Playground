@@ -7,19 +7,41 @@ function App() {
   const [currentPlayer, setcurrentPlayer] = useState(null);
   const [localPlayer, setLocalPlayer] = useState(null);
   const [gameState, setGameState] = useState(null);
+  const hasAssignedRef = useRef(false);
 
   const gameRef = ref(db,'game')
 
   useEffect(() => {
-    const storedID = localStorage.getItem('playerID');
-    if(storedID) setLocalPlayer(parseInt(storedID));
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+  
+    const handleKeyDown = (e) => {
+      const key = e.key.toLowerCase();
+      if (key === 'f5' || (e.ctrlKey && key === 'r') || (e.metaKey && key === 'r')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+  
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('keydown', handleKeyDown);
+  
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = onValue(gameRef, (snapshot) => {
       let newGameState = snapshot.val();
-      if(!newGameState.players) return update(gameRef, {'players':[0]});
-      if(newGameState.players && !localStorage.getItem('playerID')) {
+      if(!newGameState.players) {setLocalPlayer(0) ;hasAssignedRef.current = true; return update(gameRef, {'players':[0]})};
+      if(!hasAssignedRef.current && localPlayer === null) {
         const newLocalPlayer = Object.keys(newGameState.players).length;
+        hasAssignedRef.current = true;
         setLocalPlayer(newLocalPlayer);
-        localStorage.setItem("playerID", newLocalPlayer);
         update(gameRef, {[`players/${newLocalPlayer}`] : newLocalPlayer})
       }
       setGameState(newGameState);
@@ -37,10 +59,10 @@ function App() {
     <> 
       <h1>You are {localPlayer}</h1>
       {localPlayer === currentPlayer && <h1>💣</h1>}
-      <p>Current Player: {currentPlayer + 1}</p>
+      <p>Current Player: {currentPlayer}</p>
         {gameState &&
           Object.keys(gameState.players).map(player =>
-            {return <button key={player} onClick={() => handleClick(player)}>Give it to Player {parseInt(player)+1}</button>}
+            {if (!(parseInt(player) === localPlayer)) return <button key={player} onClick={() => handleClick(player)}>Give it to Player {parseInt(player)}</button>}
           )
         }
     </>

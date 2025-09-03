@@ -60,7 +60,7 @@ function App() {
       <h1>You are {localPlayer}</h1>
       {localPlayer === currentPlayer && <h1>💣</h1>}
       <p>Current Player: {currentPlayer}</p>
-        {gameState &&
+        {gameState && currentPlayer===localPlayer &&
           Object.keys(gameState.players).map(player =>
             {if (!(parseInt(player) === localPlayer)) return <button key={player} onClick={() => handleClick(player)}>Give it to Player {parseInt(player)}</button>}
           )

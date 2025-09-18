@@ -14,6 +14,12 @@ io.on("connection", (socket) => {
   if (!gameState.bombHolder) gameState.bombHolder = socket.id;
   io.emit("state", gameState);
 
+  socket.on("giveBomb", player => {
+    if(gameState.bombHolder !== socket.id) return;
+    gameState.bombHolder = player;
+    io.emit("state", gameState);
+  })
+
   socket.on("disconnect", () => {
     gameState.players = gameState.players.filter((p) => p != socket.id);
     if (gameState.bombHolder === socket.id) {

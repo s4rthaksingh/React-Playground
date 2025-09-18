@@ -9,6 +9,10 @@ export default function App() {
     return () => socket.off("state");
   }, []);
 
+  function giveBomb(player) {
+    socket.emit("giveBomb", player)
+  }
+
   if (state)
     return (
       <div>
@@ -16,7 +20,7 @@ export default function App() {
         {state.bombHolder === socket.id &&
           state.players.map((player) => {
             if (player !== socket.id)
-              return <button key={player}>Give bomb to {player}</button>;
+              return <button key={player} onClick={() => giveBomb(player)}>Give bomb to {player}</button>;
           })}
         <p>{state && JSON.stringify(state)}</p>
       </div>

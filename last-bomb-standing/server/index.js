@@ -11,6 +11,9 @@ const gameState = {
 };
 
 io.on("connection", (socket) => {
+  
+  io.emit("state", gameState);
+
   socket.on("joinGame", (playerName) => {
     const player = {id:socket.id, name:playerName}
     gameState.players.push(player);
@@ -23,7 +26,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("startGame", () => {
-    
+
   })
 
 

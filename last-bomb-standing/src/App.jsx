@@ -11,6 +11,9 @@ export default function App() {
   }, []);
 
   return(
+    <div>
+    <h1>{state && state.bombHolder === socket.id && "You have the bomb"}</h1>
     <p>{state && JSON.stringify(state)}</p>
+    </div>
   );
 }

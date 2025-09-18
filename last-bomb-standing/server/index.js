@@ -16,6 +16,8 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
         gameState.players = gameState.players.filter(p => p != socket.id);
+        if(gameState.bombHolder === socket.id && gameState.players.length > 0) gameState.bombHolder = gameState.players[Math.floor(Math.random()*gameState.players.length)];
+        else if(gameState.bombHolder === socket.id && gameState.players.length < 1) gameState.bombHolder = null;
         io.emit("state", gameState);
     })
 })

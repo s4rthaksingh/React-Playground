@@ -13,7 +13,11 @@ io.on("connection", (socket) => {
   socket.on("joinGame", (playerName) => {
     const player = {id:socket.id, name:playerName}
     gameState.players.push(player);
-    if (!gameState.bombHolder) gameState.bombHolder = socket.id;
+    if (!gameState.bombHolder)
+      {
+        gameState.bombHolder = socket.id;
+        gameState.leader = socket.id;
+      }
     io.emit("state", gameState);
   })
 
@@ -31,6 +35,13 @@ io.on("connection", (socket) => {
             Math.floor(Math.random() * gameState.players.length)
           ].id;
       else gameState.bombHolder = null;
+    }
+    if (gameState.leader === socket.id) {
+      if (gameState.players.length > 0)
+        gameState.leader = gameState.players[
+            Math.floor(Math.random() * gameState.players.length)
+          ].id;
+      else gameState.leader = null;
     }
     io.emit("state", gameState);
   });

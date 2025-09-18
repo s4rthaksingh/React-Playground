@@ -36,6 +36,7 @@ export default function App() {
   if (state)
     return (
       <div>
+        <h1>{state.leader === socket.id && "You are the leader"}</h1>
         <h1>{state.bombHolder === socket.id && "💣"}</h1>
         {state.bombHolder === socket.id &&
           state.players.filter(player => player.id !== socket.id).map((player) => {

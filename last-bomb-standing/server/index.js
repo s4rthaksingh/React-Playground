@@ -10,8 +10,8 @@ const gameState = {
 };
 
 io.on('connection', socket => {
-    
     gameState.players.push(socket.id);
+    if(!gameState.bombHolder) gameState.bombHolder = socket.id;
     io.emit("state", gameState);
 
     socket.on('disconnect', () => {

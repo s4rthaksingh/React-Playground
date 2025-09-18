@@ -10,23 +10,26 @@ const gameState = {
 };
 
 io.on("connection", (socket) => {
-  gameState.players.push(socket.id);
-  if (!gameState.bombHolder) gameState.bombHolder = socket.id;
-  io.emit("state", gameState);
+  socket.on("joinGame", (playerName) => {
+    const player = {id:socket.id, name:playerName}
+    gameState.players.push(player);
+    if (!gameState.bombHolder) gameState.bombHolder = socket.id;
+    io.emit("state", gameState);
+  })
 
-  socket.on("giveBomb", player => {
+  socket.on("giveBomb", targetplayerID => {
     if(gameState.bombHolder !== socket.id) return;
-    gameState.bombHolder = player;
+    gameState.bombHolder = targetplayerID;
     io.emit("state", gameState);
   })
 
   socket.on("disconnect", () => {
-    gameState.players = gameState.players.filter((p) => p != socket.id);
+    gameState.players = gameState.players.filter((p) => p.id != socket.id);
     if (gameState.bombHolder === socket.id) {
       if (gameState.players.length > 0)
         gameState.bombHolder = gameState.players[
             Math.floor(Math.random() * gameState.players.length)
-          ];
+          ].id;
       else gameState.bombHolder = null;
     }
     io.emit("state", gameState);

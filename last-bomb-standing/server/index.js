@@ -7,6 +7,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 const gameState = {
   players: [],
   bombHolder: null,
+  gameActive: false,
 };
 
 io.on("connection", (socket) => {
@@ -20,6 +21,11 @@ io.on("connection", (socket) => {
       }
     io.emit("state", gameState);
   })
+
+  socket.on("startGame", () => {
+    
+  })
+
 
   socket.on("giveBomb", targetplayerID => {
     if(gameState.bombHolder !== socket.id) return;

@@ -7,6 +7,8 @@ export default function App() {
   const [playerName, setPlayerName] = useState("");
   const [error, setError] = useState(null);
 
+  const leaderName = state?.players.find(p => p.id === state.leader)?.name;
+
   useEffect(() => {
     socket.on("state", setState);
     return () => socket.off("state");
@@ -30,10 +32,23 @@ export default function App() {
       <h1>Enter a username :</h1>
       <input type="text" value={playerName} onChange={(e) => setPlayerName(e.target.value)}/> <br />
       <button onClick={handleJoinGame} disabled={!playerName.trim()}>Join</button>
+      {error&&error}
     </div>
   )
 
-  if (state)
+  if(state && !state.gameActive && state.leader === socket.id) return(
+    <div>
+      <h1>You are the leader</h1>
+      <button onClick={() => socket.emit("startGame")}>Start game</button>
+    </div>
+  )
+  
+  else if (state && !state.gameActive){
+    return(
+      <div><h1>Waiting for {leaderName} to start the game...</h1></div>
+    )}
+
+  else if (state && state.gameActive)
     return (
       <div>
         <h1>{state.leader === socket.id && "You are the leader"}</h1>

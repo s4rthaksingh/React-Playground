@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
       if (gameState.gameActive) return;
 
       gameState.gameActive = true;
-      gameState.remainingTime = 10;
+      gameState.remainingTime = Math.floor(Math.random()*30);
       gameState.loser = null;
 
       const timer = setInterval(() => {

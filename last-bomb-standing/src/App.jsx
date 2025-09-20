@@ -24,13 +24,11 @@ export default function App() {
   }
 
   function handleJoinGame(){
-    console.log(playerName + " is trying to join the game")
     if(state.players.some(p => p.name === playerName)) {
       setError("This player already exists");
       return;
     }
     else{
-      console.log()
       socket.emit("joinGame", playerName.trim());
       setHasJoined(true);
     }
@@ -49,13 +47,13 @@ export default function App() {
     <div>
       <h1>You are the leader</h1>
       <button onClick={() => socket.emit("startGame")}>Start game</button>
-      {JSON.stringify(state.players)}
+      {JSON.stringify(state)}
     </div>
   )
   
   else if (state && !state.gameActive){
     return(
-      <div><h1>Waiting for {leaderName} to start the game...</h1>{JSON.stringify(state.players)}</div>
+      <div><h1>Waiting for {leaderName} to start the game...</h1>{JSON.stringify(state)}</div>
       
     )}
 

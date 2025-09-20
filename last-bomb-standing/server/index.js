@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", () => {
-    gameState.players = gameState.players.filter((p) => p.id != socket.id);
+    gameState.players = gameState.players.filter((p) => p.id !== socket.id);
     if (gameState.bombHolder === socket.id) {
       if (gameState.players.length > 0)
         gameState.bombHolder = gameState.players[

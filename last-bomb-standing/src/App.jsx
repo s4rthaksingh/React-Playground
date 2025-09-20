@@ -34,7 +34,7 @@ export default function App() {
   }
 
   if(!hasJoined) return(
-    <div className="flex flex-col justify-center items-center h-screen w-screen gap-4">
+    <div className="flex flex-col justify-center items-center h-screen w-screen gap-8">
       <h1>Enter a username</h1>
       <input 
         type="text" 
@@ -93,7 +93,7 @@ export default function App() {
           <p className="text-3xl mb-5">Players </p><br /><br />
             <ol className="list-decimal list-inside">
               {state.players.map(p => {
-                return <li key={p.id}>{p.name}</li>
+                return <li key={p.id}>{p.name} {state.bombHolder===p.id && "💣"}</li>
               })}
             </ol>
         </div>

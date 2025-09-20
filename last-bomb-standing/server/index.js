@@ -26,7 +26,31 @@ io.on("connection", (socket) => {
   })
 
   socket.on("startGame", () => {
+      if(socket.id !== gameState.leader) return;
+      if (gameState.gameActive) return;
 
+      gameState.gameActive = true;
+      gameState.remainingTime = 10;
+      gameState.loser = null;
+
+      const timer = setInterval(() => {
+        gameState.remainingTime -=1;
+        io.emit("state", gameState);
+
+        if(gameState.remainingTime <= 0){
+          clearInterval(timer);
+          gameState.remainingTime = 0;
+          gameState.loser = gameState.bombHolder;
+
+          io.emit("state", gameState);
+
+          setTimeout(() => {
+            gameState.gameActive = false;
+            io.emit("state", gameState);
+          }, 10000);
+        }
+
+      }, 1000);
   })
 
 

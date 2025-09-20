@@ -9,6 +9,11 @@ export default function App() {
 
   const leaderName = state?.players.find(p => p.id === state.leader)?.name;
 
+  function findPlayerNamebyID(id) {
+    const player = state.players.find(p => p.id === id);
+    return player? player.name : "Unknown";
+  }
+
   useEffect(() => {
     socket.on("state", setState);
     return () => socket.off("state");
@@ -59,11 +64,12 @@ export default function App() {
       <div>
         <h1>{state.leader === socket.id && "You are the leader"}</h1>
         <h1>{state.bombHolder === socket.id && "💣"}</h1>
-        {state.bombHolder === socket.id &&
+        {state.bombHolder === socket.id && !state.loser &&
           state.players.filter(player => player.id !== socket.id).map((player) => {
               return <button key={player.id} onClick={() => giveBomb(player.id)}>Give bomb to {player.name}</button>;
           })}
         <p>{state && JSON.stringify(state)}</p>
+        {state.loser && <h1>{findPlayerNamebyID(state.loser)} EXPLODED !!</h1>}
       </div>
     );
 }

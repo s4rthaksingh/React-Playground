@@ -76,6 +76,9 @@ io.on("connection", (socket) => {
           ].id;
       else gameState.leader = null;
     }
+
+    if(gameState.players.length <= 0) gameState.gameActive = false;
+
     io.emit("state", gameState);
   });
 });

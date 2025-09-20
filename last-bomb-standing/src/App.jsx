@@ -16,7 +16,7 @@ export default function App() {
 
   useEffect(() => {
     socket.on("state", setState);
-    return () => socket.off("state");
+    return () => socket.off("state", state);
   }, []);
 
   function giveBomb(player) {

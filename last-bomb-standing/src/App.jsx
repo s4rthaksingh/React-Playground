@@ -72,7 +72,7 @@ export default function App() {
       <div className="flex h-screen w-screen">
         <div className="flex flex-col justify-center items-center gap-10 w-7/10">
           <h1>Bomb blasts in {state.remainingTime}</h1>
-          <h2>{findPlayerNamebyID(state.bombHolder)} currently holds the bomb</h2>
+          <h2 className="text-2xl">{findPlayerNamebyID(state.bombHolder)} currently holds the bomb</h2>
           <h1>{state.bombHolder === socket.id && "💣"}</h1>
           {state.bombHolder === socket.id &&
             !state.loser &&
@@ -85,12 +85,12 @@ export default function App() {
                   </button>
                 );
               })}
-          {state.loser && <h2>{findPlayerNamebyID(state.loser)} exploded !!</h2>}
-          {state.loser && <h2>New game starts soon...</h2>}
+          {state.loser && <h2 className="text-2xl">{findPlayerNamebyID(state.loser)} exploded !!</h2>}
+          {state.loser && <h2 className="text-1xl">New game starts soon...</h2>}
         </div>
 
         <div className="flex flex-col justify-center items-center">
-          <p className="text-3xl mb-5">Players : </p><br /><br />
+          <p className="text-3xl mb-5">Players </p><br /><br />
             <ol className="list-decimal list-inside">
               {state.players.map(p => {
                 return <li key={p.id}>{p.name}</li>

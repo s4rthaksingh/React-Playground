@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { LevelContext } from './LevelContext'
+import Heading from './Heading'
 import './App.css'
 
 function App() {
 
   return (
-    <h1>Hello World</h1>
+   <Heading level={1} children={"Hello World!"}></Heading>
   )
 }
 

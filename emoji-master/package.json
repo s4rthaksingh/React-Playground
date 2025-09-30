@@ -1,0 +1,8 @@
+{
+  "name": "socket-emoji-game",
+  "version": "0.0.1",
+  "description": "socket.io backend",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

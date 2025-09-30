@@ -1,8 +1,12 @@
+import UserContextProvider from "./context/UserContextProvider"
+
 function App() {
 
   return (
     <div style={{display: "flex", justifyContent:"center", alignItems: "center", height: "100vh"}}>
-      Hello World!
+      <UserContextProvider>
+        Hello {user}
+      </UserContextProvider>
     </div>
   )
 }

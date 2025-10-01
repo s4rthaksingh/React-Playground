@@ -8,17 +8,11 @@ import { useEffect } from 'react';
 const socket = io('http://localhost:3000')
 
 function App() {
-  const [latestUser, setLatestUser] = useState(null);
-
-  useEffect(() => {
-    socket.on("newUser", (user) => {
-      setLatestUser(user);
-    })
-  }, [])
-
   return (
     <>
-      {latestUser ? latestUser : "No one is connected yet"}
+      <div className=''>
+        
+      </div>
     </>
   )
 }

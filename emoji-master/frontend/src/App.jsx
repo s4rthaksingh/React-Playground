@@ -10,8 +10,8 @@ const socket = io('http://localhost:3000')
 function App() {
   return (
     <>
-      <div className=''>
-        
+      <div className='h-screen w-screen items-center justify-center'>
+        <h1>Hello World!</h1>
       </div>
     </>
   )

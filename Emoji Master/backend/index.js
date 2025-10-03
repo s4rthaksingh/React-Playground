@@ -19,6 +19,11 @@ const PORT = 3000;
 io.on("connection", (socket) => {
     console.log("A new socket connected : ", socket.id);
     io.emit("newUser", socket.id)
+
+    socket.on("joinRoom", (roomID) => {
+      socket.join(roomID);
+      io.to(roomID).emit("roomMessage", `${socket.id} joined the room`)
+    })
 })
 
 server.listen(PORT, () => {

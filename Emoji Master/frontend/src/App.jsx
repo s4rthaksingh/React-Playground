@@ -13,7 +13,7 @@ function App() {
     if(roomID.trim() === '') setErrorMessage("Please provide a room ID");
     else {
       socket.emit("joinRoom",  roomID)
-      setErrorMessage(`Joining room ${roomID}`)
+      setErrorMessage(`Joining room ${roomID}...`)
     }
   }
 

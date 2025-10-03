@@ -10,12 +10,13 @@ function App() {
   const [roomID, setRoomID] = useState('');
   const [displayMessage, setDisplayMessage] = useState('');
   const [roomJoined, setRoomJoined] = useState(false);
-  const [roomMessage, setRoomMessage] = useState('');
+  const [roomMessages, setRoomMessages] = useState([]);
 
   useEffect(() => {
     socket.on("roomMessage", (message) => {
       if(!roomJoined) setRoomJoined(true);
-      setRoomMessage(message)
+
+      setRoomMessages((prevRoomMessages) => [...prevRoomMessages, message])
     })
   },[])
 
@@ -35,7 +36,7 @@ function App() {
 
   else return(
     <>
-      <RoomPage roomID={roomID} roomMessage={roomMessage}/>
+      <RoomPage roomID={roomID} roomMessages={roomMessages}/>
     </>
   )
 }

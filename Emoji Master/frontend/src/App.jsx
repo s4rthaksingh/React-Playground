@@ -11,13 +11,17 @@ function App() {
   const [displayMessage, setDisplayMessage] = useState('');
   const [roomJoined, setRoomJoined] = useState(false);
   const [roomMessages, setRoomMessages] = useState([]);
+  const [gameState, setGameState] = useState({});
 
   useEffect(() => {
     socket.on("roomMessage", (message) => {
       if(!roomJoined) setRoomJoined(true);
 
-      setRoomMessages((prevRoomMessages) => [...prevRoomMessages, message])
+      setRoomMessages((prevRoomMessages) => [...prevRoomMessages, message ])
     })
+
+    socket.on("updateGameState", (newGameState) => setGameState(newGameState));
+
   },[])
 
   function handleJoin() {
@@ -36,7 +40,7 @@ function App() {
 
   else return(
     <>
-      <RoomPage roomID={roomID} roomMessages={roomMessages}/>
+      <RoomPage roomID={roomID} roomMessages={roomMessages} gameState={gameState}/>
     </>
   )
 }

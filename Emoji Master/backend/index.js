@@ -22,14 +22,14 @@ io.on("connection", (socket) => {
     console.log("A new socket connected : ", socket.id);
     io.emit("newUser", socket.id)
 
-    socket.on("joinRoom", (roomID) => {
+    socket.on("joinRoom", (roomID, username) => {
       socket.join(roomID);
-      if(!gameStates[roomID]){ gameStates[roomID] = {"players":[socket.id]};
+      if(!gameStates[roomID]){ gameStates[roomID] = {"players":{[socket.id] : username}};
       gameStates[roomID].leader = socket.id
     }
-      else gameStates[roomID]["players"].push(socket.id);
+      else gameStates[roomID]["players"][socket.id] = username;
       console.log(gameStates)
-      io.to(roomID).emit("roomMessage", `${socket.id} joined the room`);
+      io.to(roomID).emit("roomMessage", `${username} joined the room`);
       io.to(roomID).emit("updateGameState", gameStates[roomID]);
     })
 })

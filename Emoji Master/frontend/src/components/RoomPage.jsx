@@ -2,7 +2,7 @@ export default function RoomPage({roomID, roomMessages, gameState}) {
     return (
         <>
         <div className="flex  gap-50">
-            <div className="flex flex-col gap-5 justify-center items-center h-full w-full">
+            <div className="flex flex-col gap-5 justify-center items-center h-max w-max">
                 <h1 className="font-bold">Room {roomID} </h1>
                 
                 <div className="flex flex-col gap-0.5 w-max">{roomMessages.map(message => {
@@ -13,11 +13,11 @@ export default function RoomPage({roomID, roomMessages, gameState}) {
             <div className="w-full">
                 <h2>Players:</h2>
                 <ol className="list-decimal">
-                    {(gameState?.players ?? []).map((player) =>{
-                        if(player === gameState ["leader"]){
-                            return <li key={player}>{player}👑</li>
+                    {Object.keys(gameState?.players ?? {}).map((playerID) =>{
+                        if(playerID === gameState ["leader"]){
+                            return <li key={playerID}>{gameState.players[playerID]} 👑</li>
                         }
-                        else return <li key={player}>{player}</li>
+                        else return <li key={playerID}>{gameState.players[playerID]}</li>
                     })}
                 </ol>
             </div>

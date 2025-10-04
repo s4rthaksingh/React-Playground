@@ -12,6 +12,7 @@ function App() {
   const [roomJoined, setRoomJoined] = useState(false);
   const [roomMessages, setRoomMessages] = useState([]);
   const [gameState, setGameState] = useState({});
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     socket.on("roomMessage", (message) => {
@@ -26,15 +27,16 @@ function App() {
 
   function handleJoin() {
     if(roomID.trim() === '') setDisplayMessage("Please provide a room ID");
+    else if(username.trim() === '') setDisplayMessage("Please provide a username");
     else {
-      socket.emit("joinRoom",  roomID)
+      socket.emit("joinRoom",  roomID, username)
       setDisplayMessage(`Joining room ${roomID}...`)
     }
   }
 
 
   if(!roomJoined) return (<>
-    <JoinPage setRoomID={setRoomID} handleJoin={handleJoin} displayMessage={displayMessage}/>
+    <JoinPage setRoomID={setRoomID} setUsername={setUsername} handleJoin={handleJoin} displayMessage={displayMessage}/>
     </>
   )
 
